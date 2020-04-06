@@ -1,9 +1,16 @@
 var app = require('express')();
+const express = require('express');
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+
+app.use(express.static(__dirname + '/public'));
+
+
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/views/index.html');
+    res.render('index');
 });
 
 io.on('connection', function(socket){
