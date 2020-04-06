@@ -44,6 +44,8 @@ form button {
 
 #messages li {
     padding: 5px 10px;
+    background-color: #bbb9ff;
+    margin: 10px 0;
 }
 
 #messages li:nth-child(odd) {
