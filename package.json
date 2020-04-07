@@ -1,16 +1,17 @@
 {
-  "name": "socket-chat-example",
-  "version": "0.0.1",
-  "description": "my first socket.io app",
-  "main": "index.js",
+  "name": "chatcord",
+  "version": "1.0.0",
+  "description": "Realtime chat app with rooms",
+  "main": "server.js",
   "scripts": {
-    "start": "npx nodemon",
-    "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server",
+    "dev": "nodemon server"
   },
+  "author": "Lars Breuren",
+  "license": "MIT",
   "dependencies": {
-    "ejs": "^3.0.2",
-    "express": "^4.15.2",
+    "express": "^4.17.1",
+    "moment": "^2.24.0",
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
