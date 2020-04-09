@@ -44,7 +44,7 @@ chatForm.addEventListener('submit', e => {
 });
 
 // Output message to DOM
-function outputMessage(message) {
+function outputMessage(message, room) {
   if(message.text == '/help'){
     commandResponse = "Need some help mate?"
     commands(commandResponse);
@@ -52,7 +52,12 @@ function outputMessage(message) {
    else if(message.text == '/marco'){
     commandResponse = "Polo"
     commands(commandResponse);
-   } 
+   }  
+   else if(message.text.includes("mobile") &&  roomName.innerText == "Games" ){
+    // window.location.href = '/'; optional kick
+    commandResponse = "No speaking of mobile games " + username + "!";
+    commands(commandResponse);
+   }
    else {
   const div = document.createElement('div');
   div.classList.add('message');
