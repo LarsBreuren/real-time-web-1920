@@ -50,7 +50,9 @@ io.on('connection', socket => {
 
     io.to(user.room).emit('message', formatMessage(user.username, msg));
   });
-
+  socket.on('forceDisconnect', function(){
+    socket.disconnect();
+});
   // Runs when client disconnects
   socket.on('disconnect', () => {
     const user = userLeave(socket.id);

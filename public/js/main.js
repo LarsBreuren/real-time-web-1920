@@ -23,7 +23,6 @@ socket.on('roomUsers', ({ room, users }) => {
 socket.on('message', message => {
   console.log(message);
   outputMessage(message);
-
   // Scroll down
   chatMessages.scrollTop = chatMessages.scrollHeight;
 });
@@ -55,7 +54,14 @@ function outputMessage(message, room) {
    }  
    else if(message.text.includes("mobile") &&  roomName.innerText == "Games" ){
     // window.location.href = '/'; optional kick
-    commandResponse = "No speaking of mobile games " + username + "!";
+    commandResponse = "Someone spoke of mobile games, this chat is now destroyed x.x";
+    commands(commandResponse);
+    socket.emit('forceDisconnect');
+     
+   }
+   else if(message.text.includes("hamilton") &&  roomName.innerText == "Formula 1" ){
+    // window.location.href = '/'; optional kick
+    commandResponse = "No speaking of Hamilton!";
     commands(commandResponse);
    }
    else {
