@@ -61,8 +61,21 @@ function outputMessage(message, room) {
    }
    else if(message.text.includes("hamilton") &&  roomName.innerText == "Formula 1" ){
     // window.location.href = '/'; optional kick
-    commandResponse = "No speaking of Hamilton!";
+    commandResponse = "Someone spoke of Hamilton, this chat is now finished";
     commands(commandResponse);
+    socket.emit('forceDisconnect');
+   }
+   else if(message.text.includes("prius") &&  roomName.innerText == "Cars" ){
+    // window.location.href = '/'; optional kick
+    commandResponse = "Someone spoke of the prius, this chat is now done";
+    commands(commandResponse);
+    socket.emit('forceDisconnect');
+   }
+   else if(message.text.includes("innerHTML") &&  roomName.innerText == "JavaScript" ){
+    // window.location.href = '/'; optional kick
+    commandResponse = "No innerHTMl allowed! throw new Error();";
+    commands(commandResponse);
+    socket.emit('forceDisconnect');
    }
    else {
   const div = document.createElement('div');

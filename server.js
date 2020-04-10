@@ -75,3 +75,5 @@ io.on('connection', socket => {
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Used tutorial from Traversy Media @ https://www.youtube.com/watch?v=jD7FnbI76Hg&list=LLCVV9I8-gaMZimRouxO0f1Q&index=2&t=1422s
