@@ -23,8 +23,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-console.log('hi');
-console.log( process.env.MOVIEDB_TOKEN);
+
+app.get('/', (req, res) => {
+ 
+      res.render('index')
+})
 
 app.get('/movies', (req, res) => {
   fetch(`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${process.env.MOVIEDB_TOKEN}`)
