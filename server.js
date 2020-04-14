@@ -25,18 +25,22 @@ app.set('views', 'views');
 
 
 app.get('/', (req, res) => {
-      res.render('index')
+  res.render('index')
 })
 app.get('/chat', (req, res) => {
   res.render('chat')
 })
 
 
+function random() {
+ 
+}
+
 app.get('/movies', (req, res) => {
   fetch(`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${process.env.MOVIEDB_TOKEN}`)
     .then(async response => {
       const movieData = await response.json()
-      let randomItem = movieData.results[Math.random() * movieData.results.length | 0]; 
+      let randomItem = movieData.results[Math.random() * movieData.results.length | 0];
       res.render('overview', {
         title: 'Movies',
         randomMovie: randomItem,
@@ -49,14 +53,22 @@ const botName = 'Server';
 
 // Run when client connects
 io.on('connection', socket => {
-  socket.on('joinRoom', ({ username, room }) => {
+  socket.on('joinRoom', ({
+    username,
+    room
+  }) => {
     const user = userJoin(socket.id, username, room);
 
     socket.join(user.room);
 
+    fetch(`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${process.env.MOVIEDB_TOKEN}`)
+    .then(async response => {
+      const movieData = await response.json()
+      let randomItem = movieData.results[Math.random() * movieData.results.length | 0];
+   
     // Welcome current user
-    socket.emit('message', formatMessage(botName, 'Welcome to real time chat!'));
-
+    socket.emit('message', formatMessage(botName, 'Welcome to real time chat!' + "<br>" + 'What movie is this?' + "<br><br>" + randomItem.overview));
+    })
     // Broadcast when a user connects
     socket.broadcast
       .to(user.room)
@@ -78,9 +90,9 @@ io.on('connection', socket => {
 
     io.to(user.room).emit('message', formatMessage(user.username, msg));
   });
-  socket.on('forceDisconnect', function(){
+  socket.on('forceDisconnect', function () {
     socket.disconnect();
-});
+  });
   // Runs when client disconnects
   socket.on('disconnect', () => {
     const user = userLeave(socket.id);

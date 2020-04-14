@@ -20,6 +20,9 @@
 	.movie-list li {
 	  width: 25%;
 	}
+	body .random {
+		width: 20vw;
+	}
   }
   
   @media all and (min-width: 1024px) {
