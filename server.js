@@ -1,5 +1,8 @@
+require('dotenv').config();
+
 const path = require('path');
 const http = require('http');
+const fetch = require('node-fetch')
 const express = require('express');
 const socketio = require('socket.io');
 const formatMessage = require('./utils/messages');
@@ -16,6 +19,23 @@ const io = socketio(server);
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+
+console.log('hi');
+console.log( process.env.MOVIEDB_TOKEN);
+
+app.get('/movies', (req, res) => {
+  fetch(`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${process.env.MOVIEDB_TOKEN}`)
+    .then(async response => {
+      const movieData = await response.json()
+      res.render('overview', {
+        title: 'Movies',
+        movieData,
+      });
+    })
+})
 
 const botName = 'Server';
 
@@ -71,6 +91,8 @@ io.on('connection', socket => {
     }
   });
 });
+
+
 
 const PORT = process.env.PORT || 3000;
 
