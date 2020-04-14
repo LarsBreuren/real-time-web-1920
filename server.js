@@ -25,16 +25,21 @@ app.set('views', 'views');
 
 
 app.get('/', (req, res) => {
- 
       res.render('index')
 })
+app.get('/chat', (req, res) => {
+  res.render('chat')
+})
+
 
 app.get('/movies', (req, res) => {
   fetch(`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${process.env.MOVIEDB_TOKEN}`)
     .then(async response => {
       const movieData = await response.json()
+      let randomItem = movieData.results[Math.random() * movieData.results.length | 0]; 
       res.render('overview', {
         title: 'Movies',
+        randomMovie: randomItem,
         movieData,
       });
     })

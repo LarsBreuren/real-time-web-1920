@@ -1,6 +1,15 @@
 <%- include('partials/head') %>
 
 <h1><%= title %></h1>
+<div class="random">
+    <p> Try this random movie: </p>
+
+    <h2><%= randomMovie.title %> </h2>
+    <a href="/movies/<%= randomMovie.id %>" class="movie-poster body-petite">
+        <img src="https://image.tmdb.org/t/p/w500/<%= randomMovie.poster_path %>"
+            alt="Movie poster of <%= randomMovie.original_title %>." class="movie-poster__image">
+    </a>
+</div>
 
 <ul class="movie-list">
     <% movieData.results.forEach(result => { %>
