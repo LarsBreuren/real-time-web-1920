@@ -31,11 +31,6 @@ app.get('/chat', (req, res) => {
   res.render('chat')
 })
 
-
-function random() {
- 
-}
-
 app.get('/movies', (req, res) => {
   fetch(`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${process.env.MOVIEDB_TOKEN}`)
     .then(async response => {
@@ -50,15 +45,15 @@ app.get('/movies', (req, res) => {
 })
 
 const botName = 'Server';
-
+let movieTitle = '';
 // Run when client connects
 io.on('connection', socket => {
   socket.on('joinRoom', ({
     username,
+    score,
     room
   }) => {
-    const user = userJoin(socket.id, username, room);
-
+    const user = userJoin(socket.id, username,score, room);
     socket.join(user.room);
 
     fetch(`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${process.env.MOVIEDB_TOKEN}`)
@@ -68,7 +63,10 @@ io.on('connection', socket => {
    
     // Welcome current user
     socket.emit('message', formatMessage(botName, 'Welcome to real time chat!' + "<br>" + 'What movie is this?' + "<br><br>" + randomItem.overview));
+    movieTitle = randomItem.original_title;
+    console.log('2e = ' + movieTitle);
     })
+   
     // Broadcast when a user connects
     socket.broadcast
       .to(user.room)
@@ -88,7 +86,13 @@ io.on('connection', socket => {
   socket.on('chatMessage', msg => {
     const user = getCurrentUser(socket.id);
 
+    if( msg == movieTitle){
+      io.to(user.room).emit('message', formatMessage(botName, 'goeie ouwe +1'));
+     
+      console.log(user.score);
+    }else{
     io.to(user.room).emit('message', formatMessage(user.username, msg));
+    }
   });
   socket.on('forceDisconnect', function () {
     socket.disconnect();
@@ -111,8 +115,6 @@ io.on('connection', socket => {
     }
   });
 });
-
-
 
 const PORT = process.env.PORT || 3000;
 
