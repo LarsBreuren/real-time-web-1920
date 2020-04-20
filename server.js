@@ -23,7 +23,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-
 app.get('/', (req, res) => {
   res.render('index')
 })
@@ -50,23 +49,22 @@ let movieTitle = '';
 io.on('connection', socket => {
   socket.on('joinRoom', ({
     username,
-    score,
     room
   }) => {
-    const user = userJoin(socket.id, username,score, room);
+    const user = userJoin(socket.id, username, room);
     socket.join(user.room);
 
     fetch(`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${process.env.MOVIEDB_TOKEN}`)
-    .then(async response => {
-      const movieData = await response.json()
-      let randomItem = movieData.results[Math.random() * movieData.results.length | 0];
-   
-    // Welcome current user
-    socket.emit('message', formatMessage(botName, 'Welcome to real time chat!' + "<br>" + 'What movie is this?' + "<br><br>" + randomItem.overview));
-    movieTitle = randomItem.original_title;
-    console.log('2e = ' + movieTitle);
-    })
-   
+      .then(async response => {
+        const movieData = await response.json()
+        let randomItem = movieData.results[Math.random() * movieData.results.length | 0];
+
+        // Welcome current user
+        socket.emit('message', formatMessage(botName, 'Welcome to real time chat!' + "<br>" + 'What movie is this?' + "<br><br>" + randomItem.overview));
+        movieTitle = randomItem.original_title;
+        console.log('Antwoord = ' + movieTitle);
+      })
+
     // Broadcast when a user connects
     socket.broadcast
       .to(user.room)
@@ -81,17 +79,17 @@ io.on('connection', socket => {
       users: getRoomUsers(user.room)
     });
   });
-
   // Listen for chatMessage
   socket.on('chatMessage', msg => {
     const user = getCurrentUser(socket.id);
-
-    if( msg == movieTitle){
-      io.to(user.room).emit('message', formatMessage(botName, 'goeie ouwe +1'));
-     
+    user.score = 0;
+    if (msg == movieTitle) {
+      io.to(user.room).emit('message', formatMessage(botName, 'goeie ouwe ' + user.username + ' +1'));
       console.log(user.score);
-    }else{
-    io.to(user.room).emit('message', formatMessage(user.username, msg));
+      user.score++;
+      console.log(user.score);
+    } else {
+      io.to(user.room).emit('message', formatMessage(user.username, msg));
     }
   });
   socket.on('forceDisconnect', function () {
