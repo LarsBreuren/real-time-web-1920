@@ -12,10 +12,10 @@ Moviedata coming from the moviedb API.
 - Gulp
 
 ## Whishlist
-Connection with moviedb API # [checkbox:checked]
-Generate random movies in rooms # [checkbox:checked]
-Score system # [checkbox:unchecked]
-Database with connections # [checkbox:unchecked]
+- [x] Connection with moviedb API 
+- [x] Generate random movies in rooms
+- [] Score system
+- [] Database with connections
 
 
 ## DLC Diagram
