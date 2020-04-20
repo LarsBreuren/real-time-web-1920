@@ -14,8 +14,8 @@ Moviedata coming from the moviedb API.
 ## Whishlist
 - [x] Connection with moviedb API 
 - [x] Generate random movies in rooms
-- [] Score system
-- [] Database with connections
+- [ ] Score system
+- [ ] Database with connections
 
 
 ## DLC Diagram
