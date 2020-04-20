@@ -16,6 +16,7 @@ Moviedata coming from the moviedb API.
 - [x] Generate random movies in rooms
 - [ ] Score system
 - [ ] Database with connections
+- [ ] Highscores
 
 
 ## DLC Diagram
