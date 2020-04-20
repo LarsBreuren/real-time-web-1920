@@ -6,6 +6,6 @@ The app will send some random movie related content to the chat and users have t
 The user with the fastest (correct) response wins that round.
 
 
-## Data diagram
+## DLC Diagram
+![Data diagram](https://user-images.githubusercontent.com/43336468/79773641-fda05200-8331-11ea-95c0-7bad6bd5bbb8.jpg)
 
-![Data diagram](https://user-images.githubusercontent.com/43336468/79761401-ad20f880-8321-11ea-99b7-9e8c6e8a2d24.jpg)
