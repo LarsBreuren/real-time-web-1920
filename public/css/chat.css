@@ -27,3 +27,7 @@ form button {
     background-color: var(--rgba-black);
     padding: 1em;
  }
+
+ #messages img {
+  width: 200px;
+}

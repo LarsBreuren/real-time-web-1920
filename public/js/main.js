@@ -25,4 +25,10 @@ socket.on('is_online', function(username) {
     newLI.innerHTML = username;
 
     document.getElementById("messages").appendChild(newLI);
+
+    // let newUser = document.createElement("LI");
+    // newUser.innerHTML = username;
+    // document.getElementById("users").appendChild(newUser);
+
+
 });

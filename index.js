@@ -36,7 +36,8 @@ app.get('/movies', (req, res) => {
   })
 
   let movieTitle = '';
-
+  let movieHint = '';
+  let url = 'https://image.tmdb.org/t/p/w500/';
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -47,7 +48,7 @@ io.sockets.on('connection', function(socket) {
     socket.on('username', function(username, score) {
         socket.username = username;
         socket.score = score;
-        io.emit('is_online', '🔵 <i>' + socket.username + ' ' + '[' + socket.score + ']' + ' join the chat..</i>');
+        io.emit('is_online', '🔵 <i>' + socket.username + ' ' + '[' + socket.score + ']' + ' joined the chat..</i>');
     });
 
     socket.on('disconnect', function(username) {
@@ -60,6 +61,10 @@ io.sockets.on('connection', function(socket) {
             io.emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
             io.emit('chat_message', ('Server', 'Die is goed! ' + socket.username + ' +1'));
             randomMovie();
+        }
+        if( message == '/help'){
+            io.emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
+            io.emit('chat_message', ('server', '<img src="' + url + movieHint + '">'));
         }
         else{
             io.emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
@@ -77,8 +82,13 @@ function randomMovie(){
       let randomItem = movieData.results[Math.random() * movieData.results.length | 0];
 
       // Welcome current user
-      io.emit('chat_message', ('server', '<div class="server">' + 'Welcome to real time chat!' + "<br><br>" + '<strong>' + 'What movie is this?' + '</strong>' + "<br>" + randomItem.overview + '</div>'));
+      io.emit('chat_message', ('server', '<div class="server">' + 'Welcome to real time chat!' + "<br><br>" 
+      + '<strong>' + 'Type /help to get a hint' + '<br><br>' +
+      + 'What movie is this?' + '</strong>' + "<br>" + randomItem.overview + '</div>'));
       let movieTitleLower = randomItem.original_title.toLowerCase();
+
+      movieHint = randomItem.poster_path;
+
       movieTitle = movieTitleLower;
       console.log('Antwoord = ' + movieTitle);
     })
