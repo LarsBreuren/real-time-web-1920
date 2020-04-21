@@ -1,4 +1,5 @@
-var socket = io.connect('http://localhost:3000');
+var socket = io();
+
 
 // submit text message without reload/refresh the page
 document.getElementById("chatForm").onsubmit = function(event){

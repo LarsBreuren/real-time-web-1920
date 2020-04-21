@@ -1,7 +1,8 @@
 <%- include('partials/head') %>
-    <ul id="messages"></ul>
-    <form action="/" method="POST" id="chatForm">
-      <input id="txt" autocomplete="off" autofocus="on" placeholder="type your message here..." /><button>Send</button>
-    </form>
-    <script src="/js/main.js"></script>
-    <%- include('partials/footer') %>
+<ul id="messages"></ul>
+<form action="/" method="POST" id="chatForm">
+  <input id="txt" autocomplete="off" autofocus="on" placeholder="type your message here..." /><button>Send</button>
+</form>
+<script defer src="/socket.io/socket.io.js"></script>
+<script defer src="/js/main.js"></script>
+<%- include('partials/footer') %>
