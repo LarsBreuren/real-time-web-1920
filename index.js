@@ -78,7 +78,8 @@ function randomMovie(){
 
       // Welcome current user
       io.emit('chat_message', ('server', '<div class="server">' + 'Welcome to real time chat!' + "<br><br>" + '<strong>' + 'What movie is this?' + '</strong>' + "<br>" + randomItem.overview + '</div>'));
-      movieTitle = randomItem.original_title;
+      let movieTitleLower = randomItem.original_title.toLowerCase();
+      movieTitle = movieTitleLower;
       console.log('Antwoord = ' + movieTitle);
     })
 
