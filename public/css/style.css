@@ -1,11 +1,13 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+h1{ color: red;}
 
 :root {
-	--dark-color-a: #667aff;
-	--dark-color-b: #7386ff;
+	--light: #fff;
 	--light-color: #e6e9ff;
 	--success-color: #5cb85c;
 	--error-color: #d9534f;
+	--dark: #000;
+	--server: #00A94B;
+	--rgba-black: rgba(0,0,0,0.5);
 }
 
 * {
@@ -14,49 +16,9 @@
 	padding: 0;
 }
 
-.random {
-    width: 10vw;
-    border: 2px solid var(--dark-color-b);
-    padding: 1em;
-    margin: auto;
+body{ 
+    margin-top: 100px;
 }
-
-body {
-	font-family: 'Roboto', sans-serif;
-	font-size: 16px;
-	background: var(--light-color);
-	margin: 20px;
-	margin-top: 50px;
-}
-
-ul {
-	list-style: none;
-}
-
-a {
-	text-decoration: none;
-}
-
-.btn {
-	cursor: pointer;
-	padding: 5px 15px;
-	background: var(--light-color);
-	color: var(--dark-color-a);
-	border: 0;
-	font-size: 17px;
-}
-
-
-/* @media (max-width: 700px) {
-	.chat-main {
-		display: block;
-	}
-
-	.chat-sidebar {
-		display: none;
-	}
-} */
-
 nav {
     position: fixed;
     top: 0;
