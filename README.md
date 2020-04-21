@@ -11,7 +11,7 @@ Moviedata coming from the moviedb API.
 - Nodemon
 - Gulp
 
-## Whishlist
+## Wishlist 
 - [x] Connection with moviedb API 
 - [x] Generate random movies in rooms
 - [ ] Score system
