@@ -23,7 +23,14 @@ nav {
     position: fixed;
     top: 0;
 	width: 100%;
-	background: var(--light-color);
+	background: var(--dark);
+	border: 2px solid var(--light);
+}
+nav li{
+	list-style: none;
+}
+nav li a{
+	color:  #fff;
 }
 
 .header__nav {
