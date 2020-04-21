@@ -44,7 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 io.sockets.on('connection', function(socket) {
    
       io.emit('chat_message', ('server', '<div class="server">' + 'Welcome to real time chat!' + "<br>" + '<strong>' + 'Type /help to get a hint' + '<br>' +
-      'Type /start to start' + '</div>'));
+      'Type /start to start' + '<br>' + 'or /skip to skip the current movie' + '</div>'));
 
     socket.on('username', function(username, score) {
         socket.username = username;
@@ -58,6 +58,9 @@ io.sockets.on('connection', function(socket) {
 
     socket.on('chat_message', function(message, score) {
         if (message == '/start') {
+            randomMovie();
+        }
+        if (message == '/skip') {
             randomMovie();
         }
         if (message == movieTitle) {
