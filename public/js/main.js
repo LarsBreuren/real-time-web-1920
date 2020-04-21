@@ -12,8 +12,14 @@ document.getElementById("chatForm").onsubmit = function(event){
 socket.on('chat_message', function(msg){
     let newLI = document.createElement("LI");
     newLI.innerHTML = msg;
+    newLI.setAttribute("id", "message");
+    newLI.setAttribute("class", "message");
 
     document.getElementById("messages").appendChild(newLI);
+    
+    
+    scrollToBottom();
+
 });
 
 var username = prompt('Please tell me your name');
@@ -32,3 +38,9 @@ socket.on('is_online', function(username) {
 
 
 });
+
+
+function scrollToBottom() {
+    const messages = document.getElementById('messages');
+messages.scrollTop = messages.scrollHeight;
+}

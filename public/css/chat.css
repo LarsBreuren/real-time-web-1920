@@ -31,3 +31,8 @@ form button {
  #messages img {
   width: 200px;
 }
+
+#messages {
+  height: 70vh;
+  overflow-y: auto;
+}

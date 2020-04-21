@@ -42,8 +42,9 @@ app.get('/movies', (req, res) => {
 app.use(express.static(path.join(__dirname, 'public')));
 
 io.sockets.on('connection', function(socket) {
-
-    randomMovie();
+   
+      io.emit('chat_message', ('server', '<div class="server">' + 'Welcome to real time chat!' + "<br>" + '<strong>' + 'Type /help to get a hint' + '<br>' +
+      'Type /start to start' + '</div>'));
 
     socket.on('username', function(username, score) {
         socket.username = username;
@@ -56,6 +57,9 @@ io.sockets.on('connection', function(socket) {
     })
 
     socket.on('chat_message', function(message, score) {
+        if (message == '/start') {
+            randomMovie();
+        }
         if (message == movieTitle) {
             socket.score++
             io.emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
@@ -70,7 +74,6 @@ io.sockets.on('connection', function(socket) {
             io.emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
          }
     });
-
 });
 
 
@@ -82,9 +85,7 @@ function randomMovie(){
       let randomItem = movieData.results[Math.random() * movieData.results.length | 0];
 
       // Welcome current user
-      io.emit('chat_message', ('server', '<div class="server">' + 'Welcome to real time chat!' + "<br><br>" 
-      + '<strong>' + 'Type /help to get a hint' + '<br><br>' +
-      + 'What movie is this?' + '</strong>' + "<br>" + randomItem.overview + '</div>'));
+      io.emit('chat_message', ('server', '<div class="server">' + 'What movie is this?' + '</strong>' + "<br><br>" + randomItem.overview + '</div>'));
       let movieTitleLower = randomItem.original_title.toLowerCase();
 
       movieHint = randomItem.poster_path;
