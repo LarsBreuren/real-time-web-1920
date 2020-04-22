@@ -14,7 +14,9 @@ Moviedata coming from the moviedb API.
 ## Wishlist 
 - [x] Connection with moviedb API 
 - [x] Generate random movies in rooms
-- [ ] Score system
+- [x] Score system
+- [ ] Diffrent options with answers
+- [ ] Fix that the same movie isnt asked again. (array with asked movies).
 - [ ] Database with connections
 - [ ] Highscores
 
