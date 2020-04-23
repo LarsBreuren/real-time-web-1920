@@ -58,6 +58,7 @@ io.sockets.on('connection', function(socket) {
         io.emit('is_online', '🔴 <i>' + socket.username + ' left the chat..</i>');
     })
 
+
     socket.on('chat_message', function(message, score) {
         if (message == '/start') {
             randomMovie();
@@ -79,7 +80,16 @@ io.sockets.on('connection', function(socket) {
             io.emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
          }
     });
+
+    socket.on('answer_message', function(message) {
+        io.emit('chat_message', 'yep das een antoord '+ message); 
+    });
+    
+
 });
+
+
+
 
 
 function randomMovie(){
@@ -102,13 +112,17 @@ function randomMovie(){
     let movies = [];
     movieData.results.forEach(function(obj) { movies.push(obj.original_title); });
 
-      let good = movieTitle;
-      let wrong = movies[Math.random() * movies.length | 0];
-      let wrong2 = movies[Math.random() * movies.length | 0];
+      let a = movieTitle;
+      let b = movies[Math.random() * movies.length | 0];
+      let c = movies[Math.random() * movies.length | 0];
+
+      let answerA = a.toLowerCase();
+      let answerB = b.toLowerCase();
+      let answerC = c.toLowerCase();
 
       io.emit('chat_message', ('server', '<div class="server">' +
       'What movie is this?' + '</strong>' + "<br>" + randomItem.overview  +
-      '<br><br>' +  'a) ' + good + '<br>' +  'b) ' + wrong + '<br>' +  'c) ' +wrong2 +'<br><br>' + '</div>'));
+      '<br><br>' +  'a) ' + answerA + '<br>' +  'b) ' + answerB + '<br>' +  'c) ' + answerC +'<br><br>' + '</div>'));
 
     })
 

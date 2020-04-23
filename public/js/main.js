@@ -9,6 +9,21 @@ document.getElementById("chatForm").onsubmit = function(event){
     return false;
 }
 
+document.getElementById("answerForm").onsubmit = function(event){
+    console.log( 'test');
+    var ele = document.getElementsByName('answer'); 
+              
+            for(i = 0; i < ele.length; i++) { 
+                if(ele[i].checked) 
+    answer = ele[i].value
+            }
+    event.preventDefault();
+    socket.emit('answer_message', answer );
+    document.getElementById("txt").value = '';
+    return false;
+            
+}
+
 socket.on('chat_message', function(msg){
     let newLI = document.createElement("LI");
     newLI.innerHTML = msg;
@@ -31,16 +46,10 @@ socket.on('is_online', function(username) {
     newLI.innerHTML = username;
 
     document.getElementById("messages").appendChild(newLI);
-
-    // let newUser = document.createElement("LI");
-    // newUser.innerHTML = username;
-    // document.getElementById("users").appendChild(newUser);
-
-
 });
 
 
 function scrollToBottom() {
     const messages = document.getElementById('messages');
-messages.scrollTop = messages.scrollHeight;
+    messages.scrollTop = messages.scrollHeight;
 }

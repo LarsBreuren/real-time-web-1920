@@ -4,8 +4,9 @@
 </div>
 
 <ul id="messages"></ul>
-<form action="/" method="POST" id="chatForm">
 
+<div class="forms">
+<form action="/" method="POST" id="answerForm">
   <div>
     <input type="radio" id="a" name="answer" value="a">
     <label for="a">Antwoord a</label><br>
@@ -18,9 +19,13 @@
   <input type="radio" id="c" name="answer" value="c">
   <label for="c">Antwoord c</label><br>
 </div>
+<button>Send answer</button>
+</form>
 
+<form action="/" method="POST" id="chatForm">
   <input id="txt" autocomplete="off" autofocus="on" placeholder="type your message here..." /><button>Send</button>
 </form>
+</div>
 <script defer src="/socket.io/socket.io.js"></script>
 <script defer src="/js/main.js"></script>
 <%- include('partials/footer') %>

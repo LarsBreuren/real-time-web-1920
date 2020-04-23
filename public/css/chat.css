@@ -12,8 +12,30 @@ body {
     margin: 0;
     color: var(--light);
   }
-form {display: flex; background: #fff; padding: 3px; position: fixed; bottom: 0; width: 100%; border-color: #000; border-top-style: solid; border-top-width: 1px;}
-form input { border-style: solid; border-width: 1px; padding: 10px; width: 20%; margin-right: .5%; }
+  .forms{
+    position: fixed; 
+    bottom: 0;
+    width: 100%;
+    display: flex;
+  }
+  form {
+    display: flex;
+    width: 50%;
+    background: #fff;
+    padding: 3px;
+    width: 100%;
+    border-color: #000;
+    border-top-style: solid;
+    border-top-width: 1px;
+    justify-content: space-around;
+}
+form input {
+  border-style: solid;
+  border-width: 1px;
+  padding: 10px;
+  margin-right: .5%;
+  width: 100%;
+}
 form button { 
   width: 20%; 
   background: var(--dark);
@@ -27,9 +49,6 @@ form button {
     background-color: var(--rgba-black);
     padding: 1em;
  }
- form div{
-   width: 20%;
- }
 
  #messages img {
   width: 200px;
@@ -42,4 +61,8 @@ form button {
 form label{
   color: var(--dark);
   text-align: center;
+}
+
+form button:hover{
+  background-color: grey;
 }
