@@ -17,13 +17,13 @@ body {
     bottom: 0;
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
   }
   form {
     display: flex;
     width: 50%;
     background: #fff;
     padding: 3px;
-    width: 100%;
     border-color: #000;
     border-top-style: solid;
     border-top-width: 1px;
@@ -65,4 +65,30 @@ form label{
 
 form button:hover{
   background-color: grey;
+}
+
+@media (max-width:1200px){
+
+}
+
+@media (max-width:991px){
+
+}
+
+@media (max-width:770px){
+
+}
+
+@media (max-width:550px) {
+  form div {
+    font-size: .8em;
+    text-align: center;
+  }
+  form{
+    width: 100%;
+  }
+  body{
+    background-size: contain;
+    background-repeat: unset;
+  }
 }
