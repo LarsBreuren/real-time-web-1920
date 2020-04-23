@@ -17,8 +17,12 @@ app.get('/', function(req, res) {
     res.render('index.ejs');
 });
 
+let movieTitle = '';
+let movieHint = '';
+let url = 'https://image.tmdb.org/t/p/w500/';
+
 app.get('/chat', function(req, res) {
-    res.render('chat.ejs');
+    res.render('chat.ejs')
 });
 
 app.get('/movies', (req, res) => {
@@ -35,9 +39,7 @@ app.get('/movies', (req, res) => {
       })
   })
 
-  let movieTitle = '';
-  let movieHint = '';
-  let url = 'https://image.tmdb.org/t/p/w500/';
+
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -88,13 +90,26 @@ function randomMovie(){
       let randomItem = movieData.results[Math.random() * movieData.results.length | 0];
 
       // Welcome current user
-      io.emit('chat_message', ('server', '<div class="server">' + 'What movie is this?' + '</strong>' + "<br><br>" + randomItem.overview + '</div>'));
       let movieTitleLower = randomItem.original_title.toLowerCase();
+
 
       movieHint = randomItem.poster_path;
 
       movieTitle = movieTitleLower;
       console.log('Antwoord = ' + movieTitle);
+
+
+    let movies = [];
+    movieData.results.forEach(function(obj) { movies.push(obj.original_title); });
+
+      let good = movieTitle;
+      let wrong = movies[Math.random() * movies.length | 0];
+      let wrong2 = movies[Math.random() * movies.length | 0];
+
+      io.emit('chat_message', ('server', '<div class="server">' +
+      'What movie is this?' + '</strong>' + "<br>" + randomItem.overview  +
+      '<br><br>' +  'a) ' + good + '<br>' +  'b) ' + wrong + '<br>' +  'c) ' +wrong2 +'<br><br>' + '</div>'));
+
     })
 
 }
