@@ -19,6 +19,7 @@ app.get('/', function(req, res) {
 
 let movieTitle = '';
 let movieHint = '';
+let correctAnswer = '';
 let url = 'https://image.tmdb.org/t/p/w500/';
 
 app.get('/chat', function(req, res) {
@@ -81,16 +82,23 @@ io.sockets.on('connection', function(socket) {
          }
     });
 
+
+  
     socket.on('answer_message', function(message) {
-        io.emit('chat_message', 'yep das een antoord '+ message); 
+        console.log('correct answer = ' + correctAnswer);
+        console.log('answer = ' + message)
+        if (message == correctAnswer) {
+            socket.score++
+            io.emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message + ' is goed!'); 
+            io.emit('chat_message', ('Server', 'Die is goed! ' + socket.username + ' +1'));
+            randomMovie();
+        } else{
+            io.emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message + ' is fout!'); 
+        }
     });
     
 
 });
-
-
-
-
 
 function randomMovie(){
 
@@ -102,30 +110,36 @@ function randomMovie(){
       // Welcome current user
       let movieTitleLower = randomItem.original_title.toLowerCase();
 
-
       movieHint = randomItem.poster_path;
 
       movieTitle = movieTitleLower;
       console.log('Antwoord = ' + movieTitle);
 
-
     let movies = [];
     movieData.results.forEach(function(obj) { movies.push(obj.original_title); });
 
-      let a = movieTitle;
-      let b = movies[Math.random() * movies.length | 0];
-      let c = movies[Math.random() * movies.length | 0];
+    let possible_answers = [movieTitle, movies[Math.random() * movies.length | 0], movies[Math.random() * movies.length | 0]];
 
-      let answerA = a.toLowerCase();
-      let answerB = b.toLowerCase();
-      let answerC = c.toLowerCase();
+    // Durstenfeld shuffle
+    for(var i = possible_answers.length -1; i > 0; i--){
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = possible_answers[i];
+        possible_answers[i] = possible_answers[j];
+        possible_answers[j] = temp;
+    }
+
+      let answers = {
+        a: possible_answers[0].toLowerCase(),
+        b: possible_answers[1].toLowerCase(),
+        c: possible_answers[2].toLowerCase()
+    };
+
+    correctAnswer  = Object.keys(answers).find(key => answers[key] == movieTitle);
 
       io.emit('chat_message', ('server', '<div class="server">' +
       'What movie is this?' + '</strong>' + "<br>" + randomItem.overview  +
-      '<br><br>' +  'a) ' + answerA + '<br>' +  'b) ' + answerB + '<br>' +  'c) ' + answerC +'<br><br>' + '</div>'));
-
+      '<br><br>' +  'a) ' + answers.a + '<br>' +  'b) ' + answers.b + '<br>' +  'c) ' + answers.c +'<br><br>' + '</div>'));
     })
-
 }
 
 const PORT = process.env.PORT || 3000;
