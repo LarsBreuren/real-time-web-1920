@@ -1,0 +1,13 @@
+<%- include('partials/head') %>
+  
+  <h1>What film catogory you want to use?
+  </h1> 
+<form action="chat" method="POST">
+  <select id="category" name="category">
+    <option value="action">Action</option>
+    <option value="comedy">Comedy</option>
+    <option value="horror">Horror</option>
+    <input type="submit" value="Submit">
+  </select> 
+</form>
+<%- include('partials/footer') %>

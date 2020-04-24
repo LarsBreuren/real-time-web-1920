@@ -5,10 +5,13 @@ const path = require('path');
 const http = require('http');
 const fetch = require('node-fetch')
 const socketio = require('socket.io');
+const bodyParser = require('body-parser');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
+
+app.use(bodyParser.urlencoded({ extended: true}));
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -22,12 +25,21 @@ let movieHint = '';
 let correctAnswer = '';
 let url = 'https://image.tmdb.org/t/p/w500/';
 
-app.get('/chat', function(req, res) {
-    res.render('chat.ejs')
+app.post('/chat', function(req, res) {
+    category = req.body.category;
+    res.render('chat.ejs',{
+        category: req.body.category
+    })
+});
+app.get('/category', function(req, res) {
+    res.render('category.ejs')
 });
 
+
+
+
 app.get('/movies', (req, res) => {
-    fetch(`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${process.env.MOVIEDB_TOKEN}`)
+    fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.MOVIEDB_TOKEN}&with_genres=28`)
       .then(async response => {
         const movieData = await response.json()
         console.log(movieData);
@@ -100,7 +112,19 @@ io.sockets.on('connection', function(socket) {
 
 function randomMovie(){
 
-    fetch(`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${process.env.MOVIEDB_TOKEN}`)
+    let categories = {
+        action: 28,
+        comedy: 35,
+        horror: 27
+    };
+    console.log('catogory = ' + category);
+    categoryID = categories[category]; 
+    console.log('id = ' + categoryID);
+
+    // fetchurl = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.MOVIEDB_TOKEN}&with_genres=`+ categoryID;
+    // console.log(fetchurl);
+
+    fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.MOVIEDB_TOKEN}&with_genres=`+ categoryID)
     .then(async response => {
       const movieData = await response.json()
       let randomItem = movieData.results[Math.random() * movieData.results.length | 0];
