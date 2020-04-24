@@ -63,8 +63,20 @@ form label{
   text-align: center;
 }
 
+input[type="radio"]{
+  width: 10px;
+  height: 10px;
+}
+
 form button:hover{
   background-color: grey;
+}
+
+#answerForm label {
+  width: 100%;
+  display: block;
+  padding: .5em;
+  height: 100%;
 }
 
 @media (max-width:1200px){
@@ -90,5 +102,8 @@ form button:hover{
   body{
     background-size: contain;
     background-repeat: unset;
+  }
+  #answerForm label{
+    display: unset;
   }
 }
