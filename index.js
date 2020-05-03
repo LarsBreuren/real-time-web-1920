@@ -127,7 +127,10 @@ io.sockets.on('connection', function(socket, catogory) {
         let categories = {
             action: 28,
             comedy: 35,
-            horror: 27
+            horror: 27,
+            history: 36,
+            western: 37,
+            animation: 16
         };
         console.log('catogory = ' + category);
         categoryID = categories[category]; 
