@@ -63,6 +63,7 @@ io.sockets.on('connection', function(socket, catogory) {
         let correctAnswer = '';
         let counter = 0;
         let url = 'https://image.tmdb.org/t/p/w500/';
+        let currentGenre = catogory;
    
     socket.join('some room');
       io.to(catogory).emit('chat_message', ('server', '<div class="server">' + 'Welcome to real time chat!' + "<br>" + '<strong>' + 'Type /help to get a hint' + '<br>' +
@@ -132,9 +133,9 @@ io.sockets.on('connection', function(socket, catogory) {
             western: 37,
             animation: 16
         };
-        console.log('catogory = ' + category);
-        categoryID = categories[category]; 
-        console.log('id = ' + categoryID);
+
+        categoryID = categories[currentGenre]; 
+
         
         fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.MOVIEDB_TOKEN}&with_genres=`+ categoryID)
         .then(async response => {
@@ -147,7 +148,6 @@ io.sockets.on('connection', function(socket, catogory) {
           movieHint = randomItem.poster_path;
     
           movieTitle = movieTitleLower;
-          console.log('Antwoord = ' + movieTitle);
     
         let movies = [];
         movieData.results.forEach(function(obj) { movies.push(obj.original_title); });
