@@ -18,7 +18,7 @@ Moviedata coming from the moviedb API.
 - [x] Diffrent options with answers
 - [x] Diffrent catogories for the quiz
 - [ ] Fix that the same movie isnt asked again. (array with asked movies).
-- [ ] Highscores
+- [ ] Database with highscores
 
 
 ## DLC Diagram
