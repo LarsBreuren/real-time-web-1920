@@ -13,7 +13,7 @@ Moviedata coming from the moviedb API.
 
 ## Wishlist 
 - [x] Connection with moviedb API 
-- [x] Generate random movies in rooms
+- [x] Generate random movies
 - [x] Score system
 - [x] Diffrent options with answers
 - [x] Diffrent catogories for the quiz
