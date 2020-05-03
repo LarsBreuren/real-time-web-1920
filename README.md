@@ -46,7 +46,7 @@ io.sockets.on('connection', function(socket) {
     })  
 ```
   
- On a user message (also checks if the message is a good answer)
+ On a user message, also checks if it includes a valid answer or command
  
  ```js
     socket.on('chat_message', function(message, score) {
