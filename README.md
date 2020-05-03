@@ -73,7 +73,7 @@ io.sockets.on('connection', function(socket) {
  ```
        
        When a user uses the multiple choice option the socket will listen to answer_message like this
-       ```js
+```js
            socket.on('answer_message', function(message) {
         console.log('correct answer = ' + correctAnswer);
         console.log('answer = ' + message)
