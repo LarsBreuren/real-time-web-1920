@@ -109,7 +109,7 @@ io.sockets.on('connection', function(socket, catogory) {
             socket.score++
             io.to(catogory).emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message + ' is goed!'); 
             io.to(catogory).emit('chat_message', ('Server', 'Die is goed! ' + socket.username + ' +1'));
-            randomMovie();
+            setTimeout( randomMovie, 1500);
         } else{
             io.to(catogory).emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message + ' is fout!'); 
         }
