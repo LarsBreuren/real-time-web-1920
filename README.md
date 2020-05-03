@@ -15,9 +15,9 @@ Moviedata coming from the moviedb API.
 - [x] Connection with moviedb API 
 - [x] Generate random movies in rooms
 - [x] Score system
-- [ ] Diffrent options with answers
+- [x] Diffrent options with answers
+- [x] Diffrent catogories for the quiz
 - [ ] Fix that the same movie isnt asked again. (array with asked movies).
-- [ ] Database with connections
 - [ ] Highscores
 
 
