@@ -17,6 +17,7 @@ Moviedata coming from the moviedb API.
 - [x] Score system
 - [x] Diffrent options with answers
 - [x] Diffrent catogories for the quiz
+- [ ] Add a delay to the randomMovie function 
 - [ ] Fix that the same movie isnt asked again. (array with asked movies).
 - [ ] Database with highscores
 
