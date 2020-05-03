@@ -43,8 +43,8 @@ io.sockets.on('connection', function(socket) {
 
     socket.on('disconnect', function(username) {
         io.emit('is_online', '🔴 <i>' + socket.username + ' left the chat..</i>');
-    })
-   ```
+    })   ```
+
   
  On a user message (also checks if the message is a good answer)
  
@@ -69,8 +69,8 @@ io.sockets.on('connection', function(socket) {
         else{
             io.emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
          }
-    });
-       ```
+    });  ```
+ 
        
        When a user uses the multiple choice option the socket will listen to answer_message like this
        ```js
@@ -86,8 +86,8 @@ io.sockets.on('connection', function(socket) {
             io.emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message + ' is fout!'); 
         }
     });
-});
-       ```
+});  ```
+     
 
 
 
