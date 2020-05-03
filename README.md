@@ -46,9 +46,48 @@ io.sockets.on('connection', function(socket) {
     })
    ```
   
+ On a user message (also checks if the message is a good answer)
  
-    
-
+ ```js
+    socket.on('chat_message', function(message, score) {
+        if (message == '/start') {
+            randomMovie();
+        }
+        if (message == '/skip') {
+            randomMovie();
+        }
+        if (message == movieTitle) {
+            socket.score++
+            io.emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
+            io.emit('chat_message', ('Server', 'Die is goed! ' + socket.username + ' +1'));
+            randomMovie();
+        }
+        if( message == '/help'){
+            io.emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
+            io.emit('chat_message', ('server', '<img src="' + url + movieHint + '">'));
+        }
+        else{
+            io.emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
+         }
+    });
+       ```
+       
+       When a user uses the multiple choice option the socket will listen to answer_message like this
+       ```js
+           socket.on('answer_message', function(message) {
+        console.log('correct answer = ' + correctAnswer);
+        console.log('answer = ' + message)
+        if (message == correctAnswer) {
+            socket.score++
+            io.emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message + ' is goed!'); 
+            io.emit('chat_message', ('Server', 'Die is goed! ' + socket.username + ' +1'));
+            randomMovie();
+        } else{
+            io.emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message + ' is fout!'); 
+        }
+    });
+});
+       ```
 
 
 
