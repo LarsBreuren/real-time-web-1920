@@ -1,6 +1,5 @@
 var socket = io();
 roomName = document.getElementsByClassName("catogory")[0].id;
-console.log(roomName);
 socket.emit('create', roomName);
 
 // submit text message without reload/refresh the page

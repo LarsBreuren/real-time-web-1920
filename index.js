@@ -21,9 +21,6 @@ app.get('/', function(req, res) {
 });
 
 
-
-
-
 app.get('/category', function(req, res) {
     res.render('category.ejs')
 });
@@ -54,25 +51,31 @@ app.get('/movies', (req, res) => {
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-io.sockets.on('connection', function(socket, catogory) {
+io.sockets.on('connection', function(socket) {
     socket.on('create', function(catogory) {
         socket.join(catogory);
 
-        let movieTitle = '';
-        let movieHint = '';
-        let correctAnswer = '';
         let counter = 0;
-        let url = 'https://image.tmdb.org/t/p/w500/';
-        let currentGenre = catogory;
+        let url = 'https://image.tmdb.org/t/p/w500/'
+
+        io.sockets.adapter.rooms[catogory].correctAnswer = '';
+        io.sockets.adapter.rooms[catogory].movieHint = '';
+
+        let currentMovie = {
+            movieTitle : '',
+            correctAnswer : '',
+            currentGenre : catogory
+        };
    
     socket.join('some room');
       io.to(catogory).emit('chat_message', ('server', '<div class="server">' + 'Welcome to real time chat!' + "<br>" + '<strong>' + 'Type /help to get a hint' + '<br>' +
       'Type /start to start' + '<br>' + 'or /skip to skip the current movie' + '</div>'));
-
+     
     socket.on('username', function(username, score) {
         socket.username = username;
         socket.score = score;
         io.to(catogory).emit('is_online', '🔵 <i>' + socket.username + ' ' + '[' + socket.score + ']' + ' joined the chat..</i>');
+       
     });
 
     socket.on('disconnect', function(username) {
@@ -80,14 +83,14 @@ io.sockets.on('connection', function(socket, catogory) {
     })
 
 
-    socket.on('chat_message', function(message, score) {
+    socket.on('chat_message', function(message) {
         if (message == '/start') {
             randomMovie();
         }
         if (message == '/skip') {
             randomMovie();
         }
-        if (message == movieTitle) {
+        if (message == currentMovie.movieTitle) {
             socket.score++
             io.to(catogory).emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
             io.to(catogory).emit('chat_message', ('Server', 'Die is goed! ' + socket.username + ' +1'));
@@ -95,33 +98,20 @@ io.sockets.on('connection', function(socket, catogory) {
         }
         if( message == '/help'){
             io.to(catogory).emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
-            io.to(catogory).emit('chat_message', ('server', '<img src="' + url + movieHint + '">'));
+            io.to(catogory).emit('chat_message', ('server', '<img src="' + url +     io.sockets.adapter.rooms[catogory].movieHint + '">'));
         }
         else{
             io.to(catogory).emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
          }
-    });
-  
-    socket.on('answer_message', function(message) {
-        console.log('correct answer = ' + correctAnswer);
-        console.log('answer = ' + message)
-        if (message == correctAnswer) {
-            socket.score++
-            io.to(catogory).emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message + ' is goed!'); 
-            io.to(catogory).emit('chat_message', ('Server', 'Die is goed! ' + socket.username + ' +1'));
-            setTimeout( randomMovie, 1500);
-        } else{
-            io.to(catogory).emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message + ' is fout!'); 
-        }
     });
 
     function randomMovie(){
         counter++;
         io.to(catogory).emit('chat_message', '<div class="round">' + 'Round: ' + counter + ' </div>');
         if ( counter == 10){
-            movieTitle = '';
-            movieHint = '';
-            correctAnswer = '';
+            currentMovie.movieTitle = '';
+            io.sockets.adapter.rooms[catogory].movieHint = '';
+            currentMovie.correctAnswer = '';
             io.to(catogory).emit('chat_message', 'Round 10 reached. Game is over!');
         } else{
     
@@ -134,9 +124,8 @@ io.sockets.on('connection', function(socket, catogory) {
             animation: 16
         };
 
-        categoryID = categories[currentGenre]; 
+        categoryID = categories[currentMovie.currentGenre]; 
 
-        
         fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.MOVIEDB_TOKEN}&with_genres=`+ categoryID)
         .then(async response => {
           const movieData = await response.json()
@@ -145,14 +134,14 @@ io.sockets.on('connection', function(socket, catogory) {
           // Welcome current user
           let movieTitleLower = randomItem.original_title.toLowerCase();
     
-          movieHint = randomItem.poster_path;
+          io.sockets.adapter.rooms[catogory].movieHint  = randomItem.poster_path;
     
-          movieTitle = movieTitleLower;
+          currentMovie.movieTitle = movieTitleLower;
     
         let movies = [];
         movieData.results.forEach(function(obj) { movies.push(obj.original_title); });
     
-        let possible_answers = [movieTitle, movies[Math.random() * movies.length | 0], movies[Math.random() * movies.length | 0]];
+        let possible_answers = [currentMovie.movieTitle, movies[Math.random() * movies.length | 0], movies[Math.random() * movies.length | 0]];
     
         // Durstenfeld shuffle
         for(var i = possible_answers.length -1; i > 0; i--){
@@ -168,8 +157,8 @@ io.sockets.on('connection', function(socket, catogory) {
             c: possible_answers[2].toLowerCase()
         };
     
-        correctAnswer  = Object.keys(answers).find(key => answers[key] == movieTitle);
-    
+        io.sockets.adapter.rooms[catogory].correctAnswer = Object.keys(answers).find(key => answers[key] == currentMovie.movieTitle);
+        console.log( currentMovie.correctAnswer)
           io.to(catogory).emit('chat_message', ('server', '<div class="server">' +
           'What movie is this?' + '</strong>' + "<br>" + randomItem.overview  +
           '<br><br>' +  'a) ' + answers.a + '<br>' +  'b) ' + answers.b + '<br>' +  'c) ' + answers.c +'<br><br>' + '</div>'));
@@ -177,11 +166,21 @@ io.sockets.on('connection', function(socket, catogory) {
       }
     }
 
+    socket.on('answer_message', function(message) {
+        console.log('correct answer = ' + currentMovie.correctAnswer);
+        console.log('answer = ' + message)
+        if (message == io.sockets.adapter.rooms[catogory].correctAnswer) {
+            socket.score++
+            io.to(catogory).emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message + ' is goed!'); 
+            io.to(catogory).emit('chat_message', ('Server', 'Die is goed! ' + socket.username + ' +1'));
+            setTimeout( randomMovie, 1500);
+        } else{
+            io.to(catogory).emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message + ' is fout!'); 
+        }
+    });
+
 });
 });
-
-
-
 
 const PORT = process.env.PORT || 3000;
 

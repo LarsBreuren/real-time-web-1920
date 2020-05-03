@@ -97,15 +97,16 @@ form button:hover{
     width: 100%;
   }
   body{
-    background-size: contain;
     background-repeat: unset;
+    background-position: center;
   }
   #answerForm label {
     display: flex;
     border: 1px solid #000;
 }
+
 }
 
 @media (max-width:550px) {
- 
+
 }
