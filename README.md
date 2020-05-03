@@ -11,6 +11,12 @@ Moviedata coming from the moviedb API.
 - Nodemon
 - Gulp
 
+## API
+The Movie Database.
+A popular edutabke database for movies & TV shows.
+Free of charge unless the project is commercial
+
+
 ## Wishlist 
 - [x] Connection with moviedb API 
 - [x] Generate random movies
