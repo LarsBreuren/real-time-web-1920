@@ -27,7 +27,7 @@ Moviedata coming from the moviedb API.
 
 ## Real time events
 
-A user connects to the quiz
+A user connects to the quiz and/or leaves
 
 ```js
 io.sockets.on('connection', function(socket) {
