@@ -23,6 +23,7 @@ app.get('/', function(req, res) {
 let movieTitle = '';
 let movieHint = '';
 let correctAnswer = '';
+let counter = 0;
 let url = 'https://image.tmdb.org/t/p/w500/';
 
 app.post('/chat', function(req, res) {
@@ -34,8 +35,6 @@ app.post('/chat', function(req, res) {
 app.get('/category', function(req, res) {
     res.render('category.ejs')
 });
-
-
 
 
 app.get('/movies', (req, res) => {
@@ -93,8 +92,6 @@ io.sockets.on('connection', function(socket) {
             io.emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
          }
     });
-
-
   
     socket.on('answer_message', function(message) {
         console.log('correct answer = ' + correctAnswer);
@@ -112,6 +109,15 @@ io.sockets.on('connection', function(socket) {
 
 function randomMovie(){
 
+    counter++;
+    io.emit('chat_message', '<div class="round">' + 'Round: ' + counter + ' </div>');
+    if ( counter == 10){
+        movieTitle = '';
+        movieHint = '';
+        correctAnswer = '';
+        io.emit('chat_message', 'Round 10 reached. Game is over!');
+    } else{
+
     let categories = {
         action: 28,
         comedy: 35,
@@ -120,10 +126,7 @@ function randomMovie(){
     console.log('catogory = ' + category);
     categoryID = categories[category]; 
     console.log('id = ' + categoryID);
-
-    // fetchurl = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.MOVIEDB_TOKEN}&with_genres=`+ categoryID;
-    // console.log(fetchurl);
-
+    
     fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.MOVIEDB_TOKEN}&with_genres=`+ categoryID)
     .then(async response => {
       const movieData = await response.json()
@@ -162,6 +165,7 @@ function randomMovie(){
       'What movie is this?' + '</strong>' + "<br>" + randomItem.overview  +
       '<br><br>' +  'a) ' + answers.a + '<br>' +  'b) ' + answers.b + '<br>' +  'c) ' + answers.c +'<br><br>' + '</div>'));
     })
+  }
 }
 
 const PORT = process.env.PORT || 3000;
