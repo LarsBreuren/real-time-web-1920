@@ -1,6 +1,6 @@
 # Real time web
 ## Concept
-Customized chat app with rooms, in each room the server/bot will ask questions about movies and the users have to ask what movie it is. The fastest correct answer wins. There is a highscore & fastest reaction scoreboard that is saved to a database.
+A movie quiz, choose what genre you want the quiz to be about and start the game. You can chat, use commands and pick answers from a multiple choice section. The one with the most points wins the game!
 
 Moviedata coming from the moviedb API.
 
@@ -18,6 +18,7 @@ Moviedata coming from the moviedb API.
 - [x] Diffrent options with answers
 - [x] Diffrent catogories for the quiz
 - [ ] Add a delay to the randomMovie function 
+- [ ] Add a counter & show winner after x rounds
 - [ ] Fix that the same movie isnt asked again. (array with asked movies).
 - [ ] Database with highscores
 
