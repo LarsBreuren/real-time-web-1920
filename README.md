@@ -24,3 +24,29 @@ Moviedata coming from the moviedb API.
 ## DLC Diagram
 ![Data diagram](https://user-images.githubusercontent.com/43336468/79773641-fda05200-8331-11ea-95c0-7bad6bd5bbb8.jpg)
 
+
+## Real time events
+
+A user connects to the quiz
+
+```js
+io.sockets.on('connection', function(socket) {
+   
+      io.emit('chat_message', ('server', '<div class="server">' + 'Welcome to real time chat!' + "<br>" + '<strong>' + 'Type /help to get a hint' + '<br>' +
+      'Type /start to start' + '<br>' + 'or /skip to skip the current movie' + '</div>'));
+
+    socket.on('username', function(username, score) {
+        socket.username = username;
+        socket.score = score;
+        io.emit('is_online', '🔵 <i>' + socket.username + ' ' + '[' + socket.score + ']' + ' joined the chat..</i>');
+    });
+
+    socket.on('disconnect', function(username) {
+        io.emit('is_online', '🔴 <i>' + socket.username + ' left the chat..</i>');
+    })
+    ```
+    
+
+
+
+
