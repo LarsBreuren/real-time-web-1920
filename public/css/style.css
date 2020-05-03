@@ -16,6 +16,32 @@ h1{ color: red;}
 	padding: 0;
 }
 
+.link{
+	color: var(--light);
+	font-weight: 600;
+}
+
+.content {
+    width: 80%;
+	margin: auto;
+	text-align: center;
+}
+.content form input {
+	width: 15%;
+	margin: 0 20px;
+}
+.content form {
+    margin: auto;
+    background-color: unset;
+    border: none;
+    justify-content: center;
+}
+
+
+.content form {
+    margin: auto;
+}
+
 body{ 
     margin: 150px 0;
 }
