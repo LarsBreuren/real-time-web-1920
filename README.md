@@ -86,7 +86,7 @@ io.sockets.on('connection', function(socket) {
             io.emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message + ' is fout!'); 
         }
     });
-});  
+ });  
 ```
 
 ## Conclusion
