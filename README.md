@@ -23,10 +23,10 @@ Free of charge unless the project is commercial
 - [x] Score system
 - [x] Diffrent options with answers
 - [x] Diffrent catogories for the quiz
-- [ ] Add a delay to the randomMovie function 
+- [x] Add a delay to the randomMovie function 
+- [x] Rooms for catogories
 - [ ] Add a counter & show winner after x rounds
 - [ ] Fix that the same movie isnt asked again. (array with asked movies).
-- [ ] Rooms for catogories
 - [ ] Database with highscores
 
 
