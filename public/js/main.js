@@ -11,7 +11,6 @@ document.getElementById("chatForm").onsubmit = function (event) {
 }
 
 document.getElementById("answerForm").onsubmit = function (event) {
-    console.log('test');
     var ele = document.getElementsByName('answer');
 
     for (i = 0; i < ele.length; i++) {

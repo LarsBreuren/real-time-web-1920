@@ -30,7 +30,6 @@ app.get('/movies', (req, res) => {
     fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.MOVIEDB_TOKEN}&with_genres=28`)
       .then(async response => {
         const movieData = await response.json()
-        console.log(movieData);
         let randomItem = movieData.results[Math.random() * movieData.results.length | 0];
         res.render('movies', {
           title: 'Movies',
@@ -156,8 +155,6 @@ io.sockets.on('connection', function(socket) {
                 c: possible_answers[2]
             };
         
-        console.log(correct_answer)
-    
         io.sockets.adapter.rooms[catogory].correctAnswer = Object.keys(answers).find(key => answers[key] ==     io.sockets.adapter.rooms[catogory].movieTitle); 
         
           io.to(catogory).emit('chat_message', ('server', '<div class="server question">' +
@@ -168,8 +165,6 @@ io.sockets.on('connection', function(socket) {
     }
 
     socket.on('answer_message', function(message) {
-        console.log('correct answer = ' + io.sockets.adapter.rooms[catogory].correctAnswer);
-        console.log('answer = ' + message)
         if (message == io.sockets.adapter.rooms[catogory].correctAnswer) {
             socket.score++
             io.to(catogory).emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message ); 
@@ -179,7 +174,6 @@ io.sockets.on('connection', function(socket) {
             io.to(catogory).emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message + ' is fout!'); 
         }
     });
-
 });
 });
 
