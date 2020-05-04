@@ -55,17 +55,13 @@ io.sockets.on('connection', function(socket) {
     socket.on('create', function(catogory) {
         socket.join(catogory);
 
-        let counter = 0;
         let url = 'https://image.tmdb.org/t/p/w500/'
 
         io.sockets.adapter.rooms[catogory].correctAnswer = '';
         io.sockets.adapter.rooms[catogory].movieHint = '';
-
-        let currentMovie = {
-            movieTitle : '',
-            correctAnswer : '',
-            currentGenre : catogory
-        };
+        io.sockets.adapter.rooms[catogory].movieTitle = '';
+        io.sockets.adapter.rooms[catogory].counter = 0;
+        io.sockets.adapter.rooms[catogory].currentGenre = catogory;
    
     socket.join('some room');
       io.to(catogory).emit('chat_message', ('server', '<div class="server">' + 'Welcome to real time chat!' + "<br>" + '<strong>' + 'Type /help to get a hint' + '<br>' +
@@ -90,12 +86,6 @@ io.sockets.on('connection', function(socket) {
         if (message == '/skip') {
             randomMovie();
         }
-        if (message == currentMovie.movieTitle) {
-            socket.score++
-            io.to(catogory).emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
-            io.to(catogory).emit('chat_message', ('Server', 'Die is goed! ' + socket.username + ' +1'));
-            randomMovie();
-        }
         if( message == '/help'){
             io.to(catogory).emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
             io.to(catogory).emit('chat_message', ('server', '<img src="' + url +     io.sockets.adapter.rooms[catogory].movieHint + '">'));
@@ -106,12 +96,13 @@ io.sockets.on('connection', function(socket) {
     });
 
     function randomMovie(){
-        counter++;
-        io.to(catogory).emit('chat_message', '<div class="round">' + 'Round: ' + counter + ' </div>');
-        if ( counter == 10){
-            currentMovie.movieTitle = '';
+        io.sockets.adapter.rooms[catogory].counter++;
+        
+        io.to(catogory).emit('chat_message', '<div class="round">' + 'Round: ' + io.sockets.adapter.rooms[catogory].counter + ' </div>');
+        if ( io.sockets.adapter.rooms[catogory].counter == 10){
+            io.sockets.adapter.rooms[catogory].movieTitle = '';
             io.sockets.adapter.rooms[catogory].movieHint = '';
-            currentMovie.correctAnswer = '';
+            io.sockets.adapter.rooms[catogory].correctAnswer = '';
             io.to(catogory).emit('chat_message', 'Round 10 reached. Game is over!');
         } else{
     
@@ -124,7 +115,7 @@ io.sockets.on('connection', function(socket) {
             animation: 16
         };
 
-        categoryID = categories[currentMovie.currentGenre]; 
+        categoryID = categories[  io.sockets.adapter.rooms[catogory].currentGenre]; 
 
         fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.MOVIEDB_TOKEN}&with_genres=`+ categoryID)
         .then(async response => {
@@ -136,12 +127,12 @@ io.sockets.on('connection', function(socket) {
     
           io.sockets.adapter.rooms[catogory].movieHint  = randomItem.poster_path;
     
-          currentMovie.movieTitle = movieTitleLower;
+          io.sockets.adapter.rooms[catogory].movieTitle = movieTitleLower;
     
         let movies = [];
         movieData.results.forEach(function(obj) { movies.push(obj.original_title); });
     
-        let possible_answers = [currentMovie.movieTitle, movies[Math.random() * movies.length | 0], movies[Math.random() * movies.length | 0]];
+        let possible_answers = [io.sockets.adapter.rooms[catogory].movieTitle, movies[Math.random() * movies.length | 0], movies[Math.random() * movies.length | 0]];
     
         // Durstenfeld shuffle
         for(var i = possible_answers.length -1; i > 0; i--){
@@ -157,8 +148,7 @@ io.sockets.on('connection', function(socket) {
             c: possible_answers[2].toLowerCase()
         };
     
-        io.sockets.adapter.rooms[catogory].correctAnswer = Object.keys(answers).find(key => answers[key] == currentMovie.movieTitle);
-        console.log( currentMovie.correctAnswer)
+        io.sockets.adapter.rooms[catogory].correctAnswer = Object.keys(answers).find(key => answers[key] ==     io.sockets.adapter.rooms[catogory].movieTitle); 
           io.to(catogory).emit('chat_message', ('server', '<div class="server">' +
           'What movie is this?' + '</strong>' + "<br>" + randomItem.overview  +
           '<br><br>' +  'a) ' + answers.a + '<br>' +  'b) ' + answers.b + '<br>' +  'c) ' + answers.c +'<br><br>' + '</div>'));
@@ -167,7 +157,7 @@ io.sockets.on('connection', function(socket) {
     }
 
     socket.on('answer_message', function(message) {
-        console.log('correct answer = ' + currentMovie.correctAnswer);
+        console.log('correct answer = ' + io.sockets.adapter.rooms[catogory].correctAnswer);
         console.log('answer = ' + message)
         if (message == io.sockets.adapter.rooms[catogory].correctAnswer) {
             socket.score++
