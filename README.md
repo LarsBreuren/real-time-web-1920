@@ -34,7 +34,8 @@ You can get all kinds of data, for example details of a certain movie/serie or a
 - [x] Diffrent catogories for the quiz
 - [x] Add a delay to the randomMovie function 
 - [x] Rooms for catogories
-- [ ] Add a counter & show winner after x rounds
+- [x] Add a round counter
+- [x] Fix bug that 2 answers can be the same
 - [ ] Fix that the same movie isnt asked again. (array with asked movies).
 - [ ] Database with highscores
 
