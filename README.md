@@ -38,6 +38,7 @@ You can get all kinds of data, for example details of a certain movie/serie or a
 - [x] Fix bug that 2 answers can be the same
 - [ ] Fix that the same movie isnt asked again. (array with asked movies).
 - [ ] Database with highscores
+- [ ] Diffrent question other then the movie titles, quotes, release date, actors etc.
 
 
 ## DLC Diagram
@@ -102,6 +103,8 @@ io.sockets.on('connection', function(socket) {
 ```
 
 ## Conclusion
-
-
+Real time web was completely new for me, i struggled alot at the start.
+The more i worked with sockets the more i felt confidend to try new stuff.
+I chose movieDB because i like the content and i saw potential to make a good quiz with it.
+I'm happy with what i have learned and reached with sockets. I still have some ideas of how to improve the quiz, maybe i'll add them later on.
 
