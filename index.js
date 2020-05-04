@@ -163,8 +163,8 @@ io.sockets.on('connection', function(socket) {
         console.log('answer = ' + message)
         if (message == io.sockets.adapter.rooms[catogory].correctAnswer) {
             socket.score++
-            io.to(catogory).emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message + ' is goed!'); 
-            io.to(catogory).emit('chat_message', ('Server', 'Die is goed! ' + socket.username + ' +1'));
+            io.to(catogory).emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message ); 
+            io.to(catogory).emit('chat_message', ('Server', '<div class="server">' +  message + ' is goed! ' + socket.username + ' +1 </div>'));
             setTimeout( randomMovie, 1500);
         } else{
             io.to(catogory).emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message + ' is fout!'); 
