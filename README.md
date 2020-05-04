@@ -4,9 +4,6 @@ A movie quiz, choose what genre you want the quiz to be about and start the game
 
 ![Screenshot_5](https://user-images.githubusercontent.com/43336468/80961185-afe41900-8e0a-11ea-982e-c97727ecc967.png)
 
-
-Moviedata coming from the moviedb API.
-
 ## Tech stuff
 - Node.js
 - Express
