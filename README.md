@@ -65,47 +65,40 @@ io.sockets.on('connection', function(socket) {
     })  
 ```
   
- On a user message, also checks if it includes a valid answer or command
+ On a user message, also checks for commands
  
  ```js
-    socket.on('chat_message', function(message, score) {
+ socket.on('chat_message', function(message) {
         if (message == '/start') {
             randomMovie();
         }
         if (message == '/skip') {
             randomMovie();
         }
-        if (message == movieTitle) {
-            socket.score++
-            io.emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
-            io.emit('chat_message', ('Server', 'Die is goed! ' + socket.username + ' +1'));
-            randomMovie();
-        }
         if( message == '/help'){
-            io.emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
-            io.emit('chat_message', ('server', '<img src="' + url + movieHint + '">'));
+            io.to(catogory).emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
+            io.to(catogory).emit('chat_message', ('server', '<img src="' + url +     io.sockets.adapter.rooms[catogory].movieHint + '">'));
         }
         else{
-            io.emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
+            io.to(catogory).emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
          }
-    }); 
+    });
  ```
        
    When a user uses the multiple choice option the socket will listen to answer_message like this
 ```js
-     socket.on('answer_message', function(message) {
-        console.log('correct answer = ' + correctAnswer);
+         socket.on('answer_message', function(message) {
+        console.log('correct answer = ' + io.sockets.adapter.rooms[catogory].correctAnswer);
         console.log('answer = ' + message)
-        if (message == correctAnswer) {
+        if (message == io.sockets.adapter.rooms[catogory].correctAnswer) {
             socket.score++
-            io.emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message + ' is goed!'); 
-            io.emit('chat_message', ('Server', 'Die is goed! ' + socket.username + ' +1'));
-            randomMovie();
+            io.to(catogory).emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' +                        message ); 
+            io.to(catogory).emit('chat_message', ('Server', '<div class="server">' +  message + ' is goed! ' + socket.username + ' +1 </div>'));
+            setTimeout( randomMovie, 1500);
         } else{
-            io.emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message + ' is fout!'); 
+            io.to(catogory).emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message + ' is fout!'); 
         }
     });
- });  
 ```
 
 ## Conclusion
