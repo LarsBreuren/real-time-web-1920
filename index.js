@@ -79,8 +79,7 @@ io.sockets.on('connection', function(socket) {
      if (number <= 1 ){
         console.log( 'No ones left 0.o')
      } else{
-        io.to(catogory).emit('is_online', '<div class="server"> <i>' + socket.username + ' left the chat. ' + '<br>' +  'Total players: ' +
-        io.sockets.adapter.rooms[catogory].roomUsers.length +  '</i> </div>');  
+        io.to(catogory).emit('is_online', '<div class="server"> <i>' + socket.username + ' left the chat. ' + '<br>' +  '</i> </div>');  
      }
     })
 
