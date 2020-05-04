@@ -2,7 +2,7 @@
 ## Concept
 A movie quiz, choose what genre you want the quiz to be about and start the game. You can chat, use commands and pick answers from a multiple choice section. The one with the most points wins the game!
 
-Moviedata coming from the moviedb API.
+![Screenshot_5](https://user-images.githubusercontent.com/43336468/80961185-afe41900-8e0a-11ea-982e-c97727ecc967.png)
 
 ## Tech stuff
 - Node.js
@@ -11,10 +11,19 @@ Moviedata coming from the moviedb API.
 - Nodemon
 - Gulp
 
+## installation
+  1. Clone the repository
+  2. Open the terminal on the docs folder
+  3 Install dependencies with `npm install`
+  3. Give the command `npm run dev`
+  4. navigate to localhost:3000
+
 ## API
 The Movie Database.
-A popular edutabke database for movies & TV shows.
-Free of charge unless the project is commercial
+A popular database for movies & TV shows.
+Free of charge unless the project is commercial.
+You get an API key when you register on their website.
+You can get all kinds of data, for example details of a certain movie/serie or all a list of genres.
 
 
 ## Wishlist 
@@ -31,7 +40,7 @@ Free of charge unless the project is commercial
 
 
 ## DLC Diagram
-![Data diagram](https://user-images.githubusercontent.com/43336468/80913223-49e08e80-8d43-11ea-8401-249c61bb5f74.jpg)
+![Data diagram](https://user-images.githubusercontent.com/43336468/80961347-0fdabf80-8e0b-11ea-93b7-fb6bfef64f9d.jpg)
 
 
 ## Real time events
