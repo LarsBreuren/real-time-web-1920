@@ -7,7 +7,7 @@ h1{ color: red;}
 	--error-color: #d9534f;
 	--dark: #000;
 	--server: #00A94B;
-	--rgba-black: rgba(0,0,0,0.5);
+	--rgba-black: rgba(0,0,0,0.8);
 }
 
 * {

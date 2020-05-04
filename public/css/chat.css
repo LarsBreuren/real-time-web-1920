@@ -57,6 +57,10 @@ form button {
 #messages {
   height: 70vh;
   overflow-y: auto;
+  margin: 1vw;
+}
+#message {
+  width: 50%;
 }
 form label{
   color: var(--dark);
@@ -80,6 +84,10 @@ form button:hover{
   border: 2px solid #000;
 }
 
+.server.question {
+  border: 2px solid red;
+  color: red;
+}
 @media (max-width:1200px){
 
 }
@@ -104,7 +112,14 @@ form button:hover{
     display: flex;
     border: 1px solid #000;
 }
-
+#messages li {
+  width: 95%;
+  margin: auto;
+  padding: 2px;
+}
+#messages h2{
+  font-size: 1.2em;
+}
 }
 
 @media (max-width:550px) {

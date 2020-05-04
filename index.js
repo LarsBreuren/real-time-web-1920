@@ -62,7 +62,8 @@ io.sockets.on('connection', function(socket) {
         io.sockets.adapter.rooms[catogory].movieTitle = '';
         io.sockets.adapter.rooms[catogory].counter = 0;
         io.sockets.adapter.rooms[catogory].currentGenre = catogory;
-   
+        io.sockets.adapter.rooms[catogory].roomUsers = io.sockets.adapter.rooms[catogory];
+
     socket.join('some room');
     socket.emit('chat_message', ('server', '<div class="server">' + 'Welcome to real time chat!' + "<br>" + '<strong>' + 'Type /help to get a hint' + '<br>' +
       'Type /start to start' + '<br>' + 'or /skip to skip the current movie' + '</div>'));
@@ -70,12 +71,13 @@ io.sockets.on('connection', function(socket) {
     socket.on('username', function(username, score) {
         socket.username = username;
         socket.score = score;
-        io.to(catogory).emit('is_online', '🔵 <i>' + socket.username + ' ' + '[' + socket.score + ']' + ' joined the chat..</i>');
-       
+        io.to(catogory).emit('is_online', '<div class="server"> <i>' + socket.username + ' ' + '[' + socket.score + ']' + ' joined the chat' +  '<br>' + 'Total players: ' +
+         io.sockets.adapter.rooms[catogory].roomUsers.length +  '</i> </div>');
     });
 
     socket.on('disconnect', function(username) {
-        io.to(catogory).emit('is_online', '🔴 <i>' + socket.username + ' left the chat..</i>');
+        io.to(catogory).emit('is_online', '<div class="server"> <i>' + socket.username + ' left the chat. ' + '<br>' +  'Total players: ' +
+        io.sockets.adapter.rooms[catogory].roomUsers.length +  '</i> </div>');
     })
 
 
@@ -149,8 +151,8 @@ io.sockets.on('connection', function(socket) {
         };
     
         io.sockets.adapter.rooms[catogory].correctAnswer = Object.keys(answers).find(key => answers[key] ==     io.sockets.adapter.rooms[catogory].movieTitle); 
-          io.to(catogory).emit('chat_message', ('server', '<div class="server">' +
-          'What movie is this?' + '</strong>' + "<br>" + randomItem.overview  +
+          io.to(catogory).emit('chat_message', ('server', '<div class="server question">' +
+          '<h2>What movie is this?</h2>' + '</strong>' + "<br>" + randomItem.overview  +
           '<br><br>' +  'a) ' + answers.a + '<br>' +  'b) ' + answers.b + '<br>' +  'c) ' + answers.c +'<br><br>' + '</div>'));
         })
       }
