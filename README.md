@@ -34,7 +34,7 @@ Free of charge unless the project is commercial
 
 
 ## DLC Diagram
-![Data diagram](https://user-images.githubusercontent.com/43336468/80913223-49e08e80-8d43-11ea-8401-249c61bb5f74.jpg)
+![Data diagram](https://user-images.githubusercontent.com/43336468/80961347-0fdabf80-8e0b-11ea-93b7-fb6bfef64f9d.jpg)
 
 
 ## Real time events
