@@ -64,7 +64,7 @@ io.sockets.on('connection', function(socket) {
         io.sockets.adapter.rooms[catogory].currentGenre = catogory;
    
     socket.join('some room');
-      io.to(catogory).emit('chat_message', ('server', '<div class="server">' + 'Welcome to real time chat!' + "<br>" + '<strong>' + 'Type /help to get a hint' + '<br>' +
+    socket.emit('chat_message', ('server', '<div class="server">' + 'Welcome to real time chat!' + "<br>" + '<strong>' + 'Type /help to get a hint' + '<br>' +
       'Type /start to start' + '<br>' + 'or /skip to skip the current movie' + '</div>'));
      
     socket.on('username', function(username, score) {
