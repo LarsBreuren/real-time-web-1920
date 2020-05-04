@@ -23,8 +23,10 @@ Moviedata coming from the moviedb API.
 
 ## API
 The Movie Database.
-A popular edutabke database for movies & TV shows.
-Free of charge unless the project is commercial
+A popular database for movies & TV shows.
+Free of charge unless the project is commercial.
+You get an API key when you register on their website.
+You can get all kinds of data, for example details of a certain movie/serie or all a list of genres.
 
 
 ## Wishlist 
