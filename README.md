@@ -10,6 +10,7 @@ A movie quiz, choose what genre you want the quiz to be about and start the game
 - Socket.io
 - Nodemon
 - Gulp
+- EJS
 
 ## installation
   1. Clone the repository
