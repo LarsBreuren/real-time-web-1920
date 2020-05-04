@@ -126,38 +126,42 @@ io.sockets.on('connection', function(socket) {
 
         fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.MOVIEDB_TOKEN}&with_genres=`+ categoryID)
         .then(async response => {
-          const movieData = await response.json()
-          let randomItem = movieData.results[Math.random() * movieData.results.length | 0];
-    
-          // Welcome current user
-          let movieTitleLower = randomItem.original_title.toLowerCase();
-    
-          io.sockets.adapter.rooms[catogory].movieHint  = randomItem.poster_path;
-    
-          io.sockets.adapter.rooms[catogory].movieTitle = movieTitleLower;
-    
-        let movies = [];
-        movieData.results.forEach(function(obj) { movies.push(obj.original_title); });
-    
-        let possible_answers = [io.sockets.adapter.rooms[catogory].movieTitle, movies[Math.random() * movies.length | 0], movies[Math.random() * movies.length | 0]];
-    
-        // Durstenfeld shuffle
-        for(var i = possible_answers.length -1; i > 0; i--){
-            var j = Math.floor(Math.random() * (i + 1));
-            var temp = possible_answers[i];
-            possible_answers[i] = possible_answers[j];
-            possible_answers[j] = temp;
-        }
-    
-          let answers = {
-            a: possible_answers[0].toLowerCase(),
-            b: possible_answers[1].toLowerCase(),
-            c: possible_answers[2].toLowerCase()
-        };
+            const movieData = await response.json();
+            let movies = [];
+
+            let correct_answer = movieData.results.splice(Math.random() * movieData.results.length | 0, 1)[0]; // splice returnt altijd een array
+
+            //kopieer alles naar de movie array
+            movieData.results.forEach(function(obj) {
+                    movies.push(obj.original_title.toLowerCase()); 
+            });
+
+
+            io.sockets.adapter.rooms[catogory].movieHint  = correct_answer.poster_path;
+            io.sockets.adapter.rooms[catogory].movieTitle = correct_answer.title;
+                
+            let possible_answers = [correct_answer.title, movies.splice(Math.random() * movies.length | 0, 1)[0], movies.splice(Math.random() * movies.length | 0, 1)[0]];
+        
+            // Durstenfeld shuffle
+            for(var i = possible_answers.length -1; i > 0; i--){
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = possible_answers[i];
+                possible_answers[i] = possible_answers[j];
+                possible_answers[j] = temp;
+            }
+        
+            let answers = {
+                a: possible_answers[0],
+                b: possible_answers[1],
+                c: possible_answers[2]
+            };
+        
+        console.log(correct_answer)
     
         io.sockets.adapter.rooms[catogory].correctAnswer = Object.keys(answers).find(key => answers[key] ==     io.sockets.adapter.rooms[catogory].movieTitle); 
+        
           io.to(catogory).emit('chat_message', ('server', '<div class="server question">' +
-          '<h2>What movie is this?</h2>' + '</strong>' + "<br>" + randomItem.overview  +
+          '<h2>What movie is this?</h2>' + '</strong>' + "<br>" + correct_answer.overview  +
           '<br><br>' +  'a) ' + answers.a + '<br>' +  'b) ' + answers.b + '<br>' +  'c) ' + answers.c +'<br><br>' + '</div>'));
         })
       }
