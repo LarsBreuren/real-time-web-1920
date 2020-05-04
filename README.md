@@ -10,6 +10,7 @@ A movie quiz, choose what genre you want the quiz to be about and start the game
 - Socket.io
 - Nodemon
 - Gulp
+- EJS
 
 ## installation
   1. Clone the repository
@@ -34,9 +35,11 @@ You can get all kinds of data, for example details of a certain movie/serie or a
 - [x] Diffrent catogories for the quiz
 - [x] Add a delay to the randomMovie function 
 - [x] Rooms for catogories
-- [ ] Add a counter & show winner after x rounds
+- [x] Add a round counter
+- [x] Fix bug that 2 answers can be the same
 - [ ] Fix that the same movie isnt asked again. (array with asked movies).
 - [ ] Database with highscores
+- [ ] Diffrent question other then the movie titles, quotes, release date, actors etc.
 
 
 ## DLC Diagram
@@ -64,50 +67,45 @@ io.sockets.on('connection', function(socket) {
     })  
 ```
   
- On a user message, also checks if it includes a valid answer or command
+ On a user message, also checks for commands
  
  ```js
-    socket.on('chat_message', function(message, score) {
+ socket.on('chat_message', function(message) {
         if (message == '/start') {
             randomMovie();
         }
         if (message == '/skip') {
             randomMovie();
         }
-        if (message == movieTitle) {
-            socket.score++
-            io.emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
-            io.emit('chat_message', ('Server', 'Die is goed! ' + socket.username + ' +1'));
-            randomMovie();
-        }
         if( message == '/help'){
-            io.emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
-            io.emit('chat_message', ('server', '<img src="' + url + movieHint + '">'));
+            io.to(catogory).emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
+            io.to(catogory).emit('chat_message', ('server', '<img src="' + url +     io.sockets.adapter.rooms[catogory].movieHint + '">'));
         }
         else{
-            io.emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
+            io.to(catogory).emit('chat_message', '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message);
          }
-    }); 
+    });
  ```
        
    When a user uses the multiple choice option the socket will listen to answer_message like this
 ```js
-     socket.on('answer_message', function(message) {
-        console.log('correct answer = ' + correctAnswer);
+         socket.on('answer_message', function(message) {
+        console.log('correct answer = ' + io.sockets.adapter.rooms[catogory].correctAnswer);
         console.log('answer = ' + message)
-        if (message == correctAnswer) {
+        if (message == io.sockets.adapter.rooms[catogory].correctAnswer) {
             socket.score++
-            io.emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message + ' is goed!'); 
-            io.emit('chat_message', ('Server', 'Die is goed! ' + socket.username + ' +1'));
-            randomMovie();
+            io.to(catogory).emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' +                        message ); 
+            io.to(catogory).emit('chat_message', ('Server', '<div class="server">' +  message + ' is goed! ' + socket.username + ' +1 </div>'));
+            setTimeout( randomMovie, 1500);
         } else{
-            io.emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message + ' is fout!'); 
+            io.to(catogory).emit('chat_message',  '<strong>' + socket.username + '[' + socket.score + ']' + '</strong>: ' + message + ' is fout!'); 
         }
     });
- });  
 ```
 
 ## Conclusion
-
-
+Real time web was completely new for me, i struggled alot at the start.
+The more i worked with sockets the more i felt confidend to try new stuff.
+I chose movieDB because i like the content and i saw potential to make a good quiz with it.
+I'm happy with what i have learned and reached with sockets. I still have some ideas of how to improve the quiz, maybe i'll add them later on.
 
