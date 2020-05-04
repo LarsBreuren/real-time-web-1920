@@ -63,7 +63,8 @@ io.sockets.on('connection', function(socket) {
         io.sockets.adapter.rooms[catogory].counter = 0;
         io.sockets.adapter.rooms[catogory].currentGenre = catogory;
         io.sockets.adapter.rooms[catogory].roomUsers = io.sockets.adapter.rooms[catogory];
-
+        let number =   io.sockets.adapter.rooms[catogory].length;
+   
     socket.join('some room');
     socket.emit('chat_message', ('server', '<div class="server">' + 'Welcome to real time chat!' + "<br>" + '<strong>' + 'Type /help to get a hint' + '<br>' +
       'Type /start to start' + '<br>' + 'or /skip to skip the current movie' + '</div>'));
@@ -72,12 +73,16 @@ io.sockets.on('connection', function(socket) {
         socket.username = username;
         socket.score = score;
         io.to(catogory).emit('is_online', '<div class="server"> <i>' + socket.username + ' ' + '[' + socket.score + ']' + ' joined the chat' +  '<br>' + 'Total players: ' +
-         io.sockets.adapter.rooms[catogory].roomUsers.length +  '</i> </div>');
+        io.sockets.adapter.rooms[catogory].roomUsers.length +  '</i> </div>');
     });
 
     socket.on('disconnect', function(username) {
+     if (number <= 1 ){
+        console.log( 'No ones left 0.o')
+     } else{
         io.to(catogory).emit('is_online', '<div class="server"> <i>' + socket.username + ' left the chat. ' + '<br>' +  'Total players: ' +
-        io.sockets.adapter.rooms[catogory].roomUsers.length +  '</i> </div>');
+        io.sockets.adapter.rooms[catogory].roomUsers.length +  '</i> </div>');  
+     }
     })
 
 
