@@ -14,6 +14,13 @@ Moviedata coming from the moviedb API.
 - Nodemon
 - Gulp
 
+## installation
+  1. Clone the repository
+  2. Open the terminal on the docs folder
+  3 Install dependencies with `npm install`
+  3. Give the command `npm run dev`
+  4. navigate to localhost:3000
+
 ## API
 The Movie Database.
 A popular edutabke database for movies & TV shows.
